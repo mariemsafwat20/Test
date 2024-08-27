@@ -1,0 +1,88 @@
+<section class="p-5">
+    <div class="d-flex justify-content-between border-bottom border-2 border-black">
+        <h1>Product Add</h1>
+
+        <div class="btns">
+            <button class="me-3 btn btn-dark" type="submit" (click)="onSave()">Save</button>
+            <button class="btn btn-dark" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5">
+        <form [formGroup]="productForm">
+            <!-- Form fields for SKU, Name, Price, and Type -->
+            <div class="form-group mb-3">
+                <label for="sku">SKU</label>
+                <input id="sku" formControlName="sku" type="text" class="form-control w-50"/>
+                @if (productForm.controls['sku'].errors?.['required'] && productForm.controls['sku'].touched) {
+                    <small id="sku" class="form-text text-danger">SKU is required and must be unique.</small>
+                }
+            </div>
+        
+            <div class="form-group mb-3">
+                <label for="name">Name</label>
+                <input id="name" formControlName="name" type="text" class="form-control w-50"/>
+                @if (productForm.controls['name'].errors?.['required'] && productForm.controls['name'].touched) {
+                    <small id="name" class="form-text text-danger">Name is required.</small>
+                }
+            </div>
+    
+            <div class="form-group mb-3">
+                <label for="price">Price</label>
+                <input id="price" formControlName="price" type="number" class="form-control w-50"/>
+                @if (productForm.controls['price'].errors?.['required'] && productForm.controls['price'].touched) {
+                    <small id="price" class="form-text text-danger">Price is required.</small>
+                }
+            </div>
+
+            <!-- Dropdown for product type -->
+            <div class="form-group mb-3">
+                <label for="productType">Type Switcher</label>
+                <select id="productType" formControlName="type" class="form-control w-50" (change)="onTypeChange()">
+                    <option value="" disabled>Type Switcher</option>
+                    <option value="DVD">DVD</option>
+                    <option value="Book">Book</option>
+                    <option value="Furniture">Furniture</option>
+                </select>
+            </div>
+    
+            <!-- Conditional attributes -->
+            <div class="form-group mb-3" *ngIf="selectedType === 'DVD'">
+                <label for="size">Size (MB)</label>
+                <input id="size" formControlName="size" type="number" class="form-control w-50" />
+            
+                @if (productForm.controls['size'].errors?.['required'] && productForm.controls['size'].touched) {
+                    <small id="size" class="form-text text-danger">Please, provide size in MB.</small>
+                }
+            </div>
+        
+            <!-- Book Specific Fields -->
+            <div class="form-group mb-3" *ngIf="selectedType === 'Book'">
+                <label for="weight">Weight (Kg)</label>
+                <input id="weight" formControlName="weight" type="number" class="form-control w-50" />
+                
+                @if (productForm.controls['weight'].errors?.['required'] && productForm.controls['weight'].touched) {
+                    <small id="weight" class="form-text text-danger">Please, provide weight in Kg.</small>
+                }
+            </div>
+        
+            <!-- Furniture Specific Fields -->
+            <div class="form-group mb-3" *ngIf="selectedType === 'Furniture'">
+                <label for="dimensions">Dimensions (HxWxL)</label>
+                <input id="height" formControlName="height" type="number" class="form-control mb-2 w-50" placeholder="Height" />
+                <input id="width" formControlName="width" type="number" class="form-control mb-2 w-50" placeholder="Width" />
+                <input id="length" formControlName="length" type="number" class="form-control w-50" placeholder="Length" />
+                
+                @if (productForm.controls['height'].errors?.['required'] && productForm.controls['height'].touched) {
+                    <small id="height" class="form-text text-danger">Please, provide valid dimensions.</small>
+                }
+            </div>
+        
+            <!-- Validation Messages -->
+            <div *ngIf="formErrorMessage" class="alert alert-danger">
+                {{ formErrorMessage }}
+            </div>
+        </form>
+    </div>
+
+</section>

@@ -1,0 +1,28 @@
+<section class="p-5">
+    <div class="d-flex justify-content-between border-bottom border-2 border-black">
+        <h1 href="#">Product List</h1>
+
+        <div class="btns">
+            <button routerLink="/add" class="me-3 btn btn-dark">ADD</button>
+            <button (click)="deleteSelectedProducts()" class="btn btn-dark">MASS DELETE</button>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-3" *ngFor="let product of products">
+            <div class="box p-3 mb-4 border border-2 border-black">
+                <input type="checkbox" (change)="toggleSelection(product.sku)" class="delete-checkbox" />
+                
+                <div class="product text-center">
+                    <p>{{ product.sku }}</p>
+                    <p>{{ product.name }}</p>
+                    <p>{{ product.price | currency:'USD' }}</p>
+                    <p *ngIf="product.type === 'DVD'">Size: {{ product.size }} MB</p>
+                    <p *ngIf="product.type === 'Book'">Weight: {{ product.weight }} Kg</p>
+                    <p *ngIf="product.type === 'Furniture'">Dimensions: {{ product.height }}x{{ product.width }}x{{ product.length }} cm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
